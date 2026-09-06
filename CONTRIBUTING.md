@@ -10,10 +10,14 @@ Use Node 24 and pnpm `11.24.0`. Run `pnpm install --frozen-lockfile`, `pnpm chec
 - Use the Changesets `Version Packages` PR for releases.
 - Obtain explicit operator approval of each release-tooling and Version Packages PR before merging.
 - Require repository review and successful CI before merging.
-- Merge Version Packages on its UTC release date.
 - Distribute package tarballs through GitHub releases; do not publish this library to npm.
+- Use stable SemVer `X.Y.Z`, such as `0.1.0`; do not publish prerelease or build-metadata versions.
+- Use an initial minor changeset to release `0.1.0` from the `0.0.0` development placeholder.
+- Before `1.0.0`, use patch changesets for fixes and minor changesets for API changes.
+- Release `1.0.0` when the public compatibility contract is stable.
+- After `1.0.0`, use patch for fixes, minor for compatible additions, and major for breaking API changes.
 
-`release-version` consumes changesets, preserves changelog history, and assigns the explicit `RELEASE_DATE`. `1998-08-08` produces `1998.8.8`; repeated releases use `1998.8.8-1`, then `-2`. Version selection includes existing GitHub tags and both draft and published releases. It requires repository authentication so drafts cannot be silently omitted. Refresh the version PR if its release date changes.
+`release-version` lets Changesets choose the version and write its changelog. It rejects versions that do not increase beyond the current manifest or collide with GitHub tags, draft releases, or published releases. Repository push access is required so draft reservations cannot be silently omitted. A collision stops preparation; it never changes the requested bump to skip a reserved version. Versions are independent of the release date.
 
 ## Repository setup
 
@@ -35,16 +39,16 @@ GitHub locks release assets and their Git tag when an immutable release is publi
 - Record the run ID, source commit, version, and SHA-512 from the reviewed evidence.
 - Verify the artifact before creating a release.
 
-Preparation preserves the exact tarball already exercised by `check:packed`; it does not repack after testing. The artifact contains `enduragent-ui-<version>.tgz` and `identity.json`, including the source commit, tag, asset name, and digest. For example, version `1998.8.8` uses tag `v1998.8.8` and asset `enduragent-ui-1998.8.8.tgz`.
+Preparation preserves the exact tarball already exercised by `check:packed`; it does not repack after testing. The artifact contains `enduragent-ui-<version>.tgz` and `identity.json`, including the source commit, tag, asset name, and digest. For example, version `0.1.0` uses tag `v0.1.0` and asset `enduragent-ui-0.1.0.tgz`.
 
 From the repository checkout, use the actual reviewed values:
 
 ```sh
 gh-personal run download "$prepare_run_id" --repo yerzhansa/enduragent-ui --name ui-release --dir release
-GITHUB_REPOSITORY=yerzhansa/enduragent-ui GITHUB_REF=refs/heads/main GITHUB_SHA="$release_commit" RELEASE_DATE="$(date -u +%F)" PREPARE_RUN_ID="$prepare_run_id" ARTIFACT_SHA512="$artifact_sha512" node tools/verify-release.mjs artifact release
+GITHUB_REPOSITORY=yerzhansa/enduragent-ui GITHUB_REF=refs/heads/main GITHUB_SHA="$release_commit" PREPARE_RUN_ID="$prepare_run_id" ARTIFACT_SHA512="$artifact_sha512" node tools/verify-release.mjs artifact release
 ```
 
-The verifier accepts only the fixed repository's API endpoints. It checks the successful preparation run, exact source commit, package name, version, release date, asset name, tag, and tarball digest. Public repository reads need no local token. Authentication failures stop verification.
+The verifier accepts only the fixed repository's API endpoints. It checks the successful preparation run, exact source commit, package name, stable version, asset name, tag, and tarball digest. Public repository reads need no local token. Authentication failures stop verification.
 
 ## Create and inspect the draft
 
@@ -61,7 +65,7 @@ gh-personal api repos/yerzhansa/enduragent-ui/immutable-releases --jq .enabled
 gh-personal release create "$release_tag" --repo yerzhansa/enduragent-ui --draft --target "$release_commit" --title "$release_tag" --notes-file release-notes.md
 gh-personal release upload "$release_tag" "release/$release_asset" release/identity.json --repo yerzhansa/enduragent-ui
 gh-personal release download "$release_tag" --repo yerzhansa/enduragent-ui --pattern "$release_asset" --pattern identity.json --dir downloaded-release
-GITHUB_REPOSITORY=yerzhansa/enduragent-ui GITHUB_REF=refs/heads/main GITHUB_SHA="$release_commit" RELEASE_DATE="$(date -u +%F)" PREPARE_RUN_ID="$prepare_run_id" ARTIFACT_SHA512="$artifact_sha512" node tools/verify-release.mjs artifact downloaded-release
+GITHUB_REPOSITORY=yerzhansa/enduragent-ui GITHUB_REF=refs/heads/main GITHUB_SHA="$release_commit" PREPARE_RUN_ID="$prepare_run_id" ARTIFACT_SHA512="$artifact_sha512" node tools/verify-release.mjs artifact downloaded-release
 ```
 
 Do not use `--clobber`. Reuse an existing draft only after confirming its tag, commit, asset names, and bytes match the reviewed artifact.
@@ -69,7 +73,6 @@ Do not use `--clobber`. Reuse an existing draft only after confirming its tag, c
 ## Publish after approval
 
 - Obtain explicit operator approval of the exact draft, version, commit, and asset SHA-512 before publication.
-- Recheck the UTC release date immediately before publishing.
 - Publish the verified draft after approval.
 - Confirm the published release is immutable and its asset digest still matches.
 - Pin both consumers to the same exact versioned URL and lockfile integrity.
@@ -78,6 +81,6 @@ Do not use `--clobber`. Reuse an existing draft only after confirming its tag, c
 gh-personal release edit "$release_tag" --repo yerzhansa/enduragent-ui --draft=false --latest
 ```
 
-The consumer URL is `https://github.com/yerzhansa/enduragent-ui/releases/download/v<version>/enduragent-ui-<version>.tgz`. For example: `https://github.com/yerzhansa/enduragent-ui/releases/download/v1998.8.8/enduragent-ui-1998.8.8.tgz`.
+The consumer URL is `https://github.com/yerzhansa/enduragent-ui/releases/download/v<version>/enduragent-ui-<version>.tgz`. For example: `https://github.com/yerzhansa/enduragent-ui/releases/download/v0.1.0/enduragent-ui-0.1.0.tgz`.
 
-Do not rebuild between artifact review and publication. Existing draft versions reserve their version numbers. If approval passes midnight, prepare a correctly dated Version Packages change and a new artifact. The read-only workflow cannot enforce the time of a later operator publication.
+Do not rebuild between artifact review and publication. Existing draft versions reserve their version numbers. Approval on a later day does not require a version change or a new artifact.

@@ -14,16 +14,16 @@ const repository = "yerzhansa/enduragent-ui";
 function run(mode, change = {}) {
   const directory = mkdtempSync(join(tmpdir(), "ui-release-boundary-"));
   try {
-    const manifest = { name: "@enduragent/ui", version: "1998.8.8", ...change.manifest };
+    const manifest = { name: "@enduragent/ui", version: "0.1.0", ...change.manifest };
     writeFileSync(join(directory, "package.json"), JSON.stringify(manifest));
     mkdirSync(join(directory, "package"));
     mkdirSync(join(directory, "release"));
     writeFileSync(join(directory, "package/package.json"), JSON.stringify(manifest));
-    execFileSync("tar", ["-czf", "release/enduragent-ui-1998.8.8.tgz", "package/package.json"], {
+    execFileSync("tar", ["-czf", "release/enduragent-ui-0.1.0.tgz", "package/package.json"], {
       cwd: directory,
     });
     const sha512 = createHash("sha512")
-      .update(readFileSync(join(directory, "release/enduragent-ui-1998.8.8.tgz")))
+      .update(readFileSync(join(directory, "release/enduragent-ui-0.1.0.tgz")))
       .digest("hex");
     writeFileSync(
       join(directory, "release/identity.json"),
@@ -82,7 +82,6 @@ function run(mode, change = {}) {
         GITHUB_REF: "refs/heads/main",
         GITHUB_SHA: commit,
         GITHUB_TOKEN: "synthetic-fixture",
-        RELEASE_DATE: "1998-08-08",
         PREPARE_RUN_ID: "9",
         ARTIFACT_SHA512: sha512,
         ...change.env,
@@ -105,7 +104,13 @@ for (const [label, change] of [
   ["wrong repository", { env: { GITHUB_REPOSITORY: "other/repository" } }],
   ["wrong branch", { env: { GITHUB_REF: "refs/heads/feature" } }],
   ["malformed commit", { env: { GITHUB_SHA: "main" } }],
-  ["stale date", { env: { RELEASE_DATE: "1998-08-09" } }],
+  ["development placeholder", { manifest: { version: "0.0.0" } }],
+  ["prerelease version", { manifest: { version: "0.1.0-beta" } }],
+  [
+    "build metadata",
+    { identity: { version: "0.1.0+build" }, manifest: { version: "0.1.0+build" } },
+  ],
+  ["malformed version", { manifest: { version: "0.01.0" } }],
   ["private package", { manifest: { private: true } }],
   ["API failure", { apiStatus: 403 }],
 ])
@@ -125,7 +130,7 @@ for (const [label, change] of [
   ["invalid run identifier", { env: { PREPARE_RUN_ID: "../9" } }],
   ["different tarball digest", { env: { ARTIFACT_SHA512: "b".repeat(128) } }],
   ["wrong asset name", { identity: { asset: "../other.tgz" } }],
-  ["wrong release tag", { identity: { tag: "v1998.8.7" } }],
+  ["wrong release tag", { identity: { tag: "v0.0.9" } }],
   ["different identity repository", { identity: { repository: "other/repository" } }],
   ["different identity commit", { identity: { commit: "b".repeat(40) } }],
 ])
@@ -135,4 +140,12 @@ for (const [label, change] of [
 test("read-only artifact verification can inspect public run evidence without a local token", () => {
   const result = run("artifact", { env: { GITHUB_TOKEN: "" } });
   assert.equal(result.status, 0, result.stderr);
+});
+
+test("release verification does not depend on the preparation or publication date", () => {
+  for (const mode of ["prepare", "artifact"])
+    for (const date of ["1998-01-01", "1999-12-31", "not-a-date"]) {
+      const result = run(mode, { env: { RELEASE_DATE: date } });
+      assert.equal(result.status, 0, result.stderr);
+    }
 });

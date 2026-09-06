@@ -1,7 +1,7 @@
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
-import { assertReleaseDate } from "./calver.mjs";
+import { assertReleaseVersion } from "./release-semver.mjs";
 import { githubApi } from "./github-release.mjs";
 import { resolve } from "node:path";
 
@@ -36,7 +36,7 @@ if (mode === "prepare") {
   const manifest = JSON.parse(readFileSync("package.json", "utf8"));
   if (manifest.name !== "@enduragent/ui" || manifest.private === true)
     throw new Error("Expected public UI package");
-  assertReleaseDate(manifest.version, process.env.RELEASE_DATE);
+  assertReleaseVersion(manifest.version);
 } else if (mode === "artifact") {
   if (
     !/^[1-9]\d*$/.test(process.env.PREPARE_RUN_ID ?? "") ||
@@ -54,7 +54,7 @@ if (mode === "prepare") {
     throw new Error("Artifact run must be successful preparation of this exact main snapshot");
   const directory = resolve(process.argv[3] ?? "release");
   const identity = JSON.parse(readFileSync(resolve(directory, "identity.json"), "utf8"));
-  assertReleaseDate(identity.version, process.env.RELEASE_DATE);
+  assertReleaseVersion(identity.version);
   const asset = `enduragent-ui-${identity.version}.tgz`;
   if (
     identity.repository !== repository ||
@@ -77,5 +77,5 @@ if (mode === "prepare") {
     manifest.private === true
   )
     throw new Error("Artifact identity mismatch");
-  assertReleaseDate(manifest.version, process.env.RELEASE_DATE);
+  assertReleaseVersion(manifest.version);
 } else throw new Error("Expected prepare or artifact mode");
