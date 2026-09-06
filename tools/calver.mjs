@@ -11,7 +11,7 @@ export function releaseBase(date) {
 
 export function nextVersion(date, versions) {
   if (!Array.isArray(versions) || versions.some((version) => typeof version !== "string"))
-    throw new Error("Registry versions must be a string array");
+    throw new Error("GitHub versions must be a string array");
   const base = releaseBase(date);
   const sameDay = versions.filter((version) => version === base || version.startsWith(`${base}-`));
   if (sameDay.length === 0) return base;
@@ -19,7 +19,7 @@ export function nextVersion(date, versions) {
     if (version === base) return 0;
     const suffix = version.slice(base.length + 1);
     if (!/^[1-9]\d*$/.test(suffix) || !Number.isSafeInteger(Number(suffix)))
-      throw new Error("Unsupported same-day registry version");
+      throw new Error("Unsupported same-day release version");
     return Number(suffix);
   });
   const sequence = Math.max(...suffixes) + 1;

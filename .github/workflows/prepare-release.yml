@@ -27,7 +27,7 @@ jobs:
       - run: node tools/verify-release.mjs prepare
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: node --test tests/calver.test.mjs tests/verify-release.test.mjs
+      - run: pnpm test:release
       - run: pnpm check
       - run: pnpm build
       - run: pnpm test
@@ -42,11 +42,12 @@ jobs:
           const proof = JSON.parse(readFileSync('artifacts/packed-artifact.json', 'utf8'));
           if (typeof proof.tarball !== 'string' || dirname(resolve(proof.tarball)) !== resolve('artifacts') || !/^enduragent-ui-[\w.-]+\.tgz$/.test(basename(proof.tarball))) throw new Error('Invalid proven tarball path');
           mkdirSync('release');
-          copyFileSync(proof.tarball, 'release/ui.tgz');
           const manifest = JSON.parse(readFileSync('package.json', 'utf8'));
-          const sha512 = createHash('sha512').update(readFileSync('release/ui.tgz')).digest('hex');
+          const asset = `enduragent-ui-${manifest.version}.tgz`;
+          copyFileSync(proof.tarball, `release/${asset}`);
+          const sha512 = createHash('sha512').update(readFileSync(`release/${asset}`)).digest('hex');
           if (sha512 !== proof.sha512) throw new Error('Packed proof digest mismatch');
-          writeFileSync('release/identity.json', JSON.stringify({ repository: 'yerzhansa/enduragent-ui', commit: process.env.GITHUB_SHA, version: manifest.version, sha512 }, null, 2));
+          writeFileSync('release/identity.json', JSON.stringify({ repository: 'yerzhansa/enduragent-ui', commit: process.env.GITHUB_SHA, version: manifest.version, tag: `v${manifest.version}`, asset, sha512 }, null, 2));
           process.stdout.write(sha512);
           NODE
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a

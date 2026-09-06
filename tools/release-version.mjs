@@ -1,29 +1,23 @@
-import { execFileSync, spawnSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { nextVersion, rewriteChangelog } from "./calver.mjs";
+import { releaseVersions } from "./github-release.mjs";
 
-const response = spawnSync(
-  "npm",
-  ["view", "@enduragent/ui", "versions", "--json", "--registry=https://registry.npmjs.org"],
-  { encoding: "utf8" },
-);
-if (response.error) throw response.error;
-let versions;
-if (response.status === 0) {
-  const value = JSON.parse(response.stdout);
-  versions = typeof value === "string" ? [value] : value;
-} else {
-  const error = JSON.parse(response.stdout || "{}");
-  if (error.error?.code !== "E404" || process.env.UI_BOOTSTRAP !== "1")
-    throw new Error(
-      "Registry lookup failed; bootstrap requires an explicit UI_BOOTSTRAP=1 and confirmed package ownership",
-    );
-  versions = [];
-}
-const version = nextVersion(process.env.RELEASE_DATE, versions);
+if (
+  process.env.GITHUB_REPOSITORY !== "yerzhansa/enduragent-ui" ||
+  process.env.GITHUB_REF !== "refs/heads/main"
+)
+  throw new Error("Version preparation must run on the UI repository main branch");
 const before = JSON.parse(readFileSync("package.json", "utf8"));
-if (before.name !== "@enduragent/ui" || before.private === true)
+if (
+  before.name !== "@enduragent/ui" ||
+  before.private === true ||
+  typeof before.version !== "string" ||
+  before.version.length === 0
+)
   throw new Error("Expected public UI package");
+const versions = await releaseVersions();
+const version = nextVersion(process.env.RELEASE_DATE, [...versions, before.version]);
 execFileSync("pnpm", ["exec", "changeset", "version"], { stdio: "inherit" });
 const manifest = JSON.parse(readFileSync("package.json", "utf8"));
 if (manifest.version === before.version) throw new Error("No UI changeset was consumed");
