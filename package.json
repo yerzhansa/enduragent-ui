@@ -29,7 +29,7 @@
     "check:packed": "node tools/check-packed.mjs",
     "check:ui": "pnpm build-storybook && playwright test",
     "release-version": "node tools/release-version.mjs",
-    "test:release": "node --test tests/calver.test.mjs tests/verify-release.test.mjs tests/github-release.test.mjs"
+    "test:release": "node --test tests/release-semver.test.mjs tests/release-version.test.mjs tests/verify-release.test.mjs tests/github-release.test.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.6.0",

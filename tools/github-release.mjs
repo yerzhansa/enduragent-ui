@@ -33,7 +33,7 @@ export async function releaseVersions() {
       for (const entry of entries) {
         const name = endpoint === "releases" ? entry.tag_name : entry.name;
         if (typeof name !== "string") throw new Error("GitHub release or tag has no name");
-        if (/^v\d{4}\./.test(name)) versions.add(name.slice(1));
+        if (/^v\d/.test(name)) versions.add(name.slice(1));
       }
       if (entries.length < 100) break;
     }

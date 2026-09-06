@@ -23,7 +23,6 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: echo "RELEASE_DATE=$(date -u +%F)" >> "$GITHUB_ENV"
       - run: node tools/verify-release.mjs prepare
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
