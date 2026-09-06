@@ -25,7 +25,7 @@ test("leap days follow Gregorian century rules", () => {
   ])
     assert.throws(() => releaseBase(value));
 });
-test("unknown registry response and ambiguous same-day prereleases fail closed", () => {
+test("unknown GitHub response and ambiguous same-day prereleases fail closed", () => {
   for (const versions of [
     null,
     "1998.8.8",
@@ -36,7 +36,7 @@ test("unknown registry response and ambiguous same-day prereleases fail closed",
   ])
     assert.throws(() => nextVersion("1998-08-08", versions));
 });
-test("staging requires the actual release date and valid suffix", () => {
+test("artifact verification requires the actual release date and valid suffix", () => {
   assertReleaseDate("1998.8.8", "1998-08-08");
   assertReleaseDate("1998.8.8-2", "1998-08-08");
   for (const version of ["1998.8.7", "1998.8.9", "1998.08.08", "1998.8.8-0", "1998.8.8-beta"])

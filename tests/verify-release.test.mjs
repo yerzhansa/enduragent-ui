@@ -19,13 +19,23 @@ function run(mode, change = {}) {
     mkdirSync(join(directory, "package"));
     mkdirSync(join(directory, "release"));
     writeFileSync(join(directory, "package/package.json"), JSON.stringify(manifest));
-    execFileSync("tar", ["-czf", "release/ui.tgz", "package/package.json"], { cwd: directory });
+    execFileSync("tar", ["-czf", "release/enduragent-ui-1998.8.8.tgz", "package/package.json"], {
+      cwd: directory,
+    });
     const sha512 = createHash("sha512")
-      .update(readFileSync(join(directory, "release/ui.tgz")))
+      .update(readFileSync(join(directory, "release/enduragent-ui-1998.8.8.tgz")))
       .digest("hex");
     writeFileSync(
       join(directory, "release/identity.json"),
-      JSON.stringify({ commit, version: manifest.version, sha512, ...change.identity }),
+      JSON.stringify({
+        repository,
+        commit,
+        version: manifest.version,
+        tag: `v${manifest.version}`,
+        asset: `enduragent-ui-${manifest.version}.tgz`,
+        sha512,
+        ...change.identity,
+      }),
     );
     const responses = {
       [`commits/${commit}/pulls`]: [
@@ -87,8 +97,8 @@ test("preparation accepts an approved-shape merged version snapshot with success
   const result = run("prepare");
   assert.equal(result.status, 0, result.stderr);
 });
-test("staging accepts the exact reviewed tarball and successful preparation run", () => {
-  const result = run("stage");
+test("artifact verification accepts the exact reviewed tarball and successful preparation run", () => {
+  const result = run("artifact");
   assert.equal(result.status, 0, result.stderr);
 });
 for (const [label, change] of [
@@ -99,8 +109,8 @@ for (const [label, change] of [
   ["private package", { manifest: { private: true } }],
   ["API failure", { apiStatus: 403 }],
 ])
-  test(`both release steps reject ${label}`, () => {
-    for (const mode of ["prepare", "stage"]) assert.notEqual(run(mode, change).status, 0);
+  test(`both verification modes reject ${label}`, () => {
+    for (const mode of ["prepare", "artifact"]) assert.notEqual(run(mode, change).status, 0);
   });
 for (const [label, change] of [
   ["unmerged PR", { pr: { merged_at: null } }],
@@ -114,6 +124,15 @@ for (const [label, change] of [
   ["failed preparation", { run: { conclusion: "failure" } }],
   ["invalid run identifier", { env: { PREPARE_RUN_ID: "../9" } }],
   ["different tarball digest", { env: { ARTIFACT_SHA512: "b".repeat(128) } }],
+  ["wrong asset name", { identity: { asset: "../other.tgz" } }],
+  ["wrong release tag", { identity: { tag: "v1998.8.7" } }],
+  ["different identity repository", { identity: { repository: "other/repository" } }],
   ["different identity commit", { identity: { commit: "b".repeat(40) } }],
 ])
-  test(`staging rejects ${label}`, () => assert.notEqual(run("stage", change).status, 0));
+  test(`artifact verification rejects ${label}`, () =>
+    assert.notEqual(run("artifact", change).status, 0));
+
+test("read-only artifact verification can inspect public run evidence without a local token", () => {
+  const result = run("artifact", { env: { GITHUB_TOKEN: "" } });
+  assert.equal(result.status, 0, result.stderr);
+});
