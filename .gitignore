@@ -1,0 +1,6 @@
+node_modules/
+dist/
+artifacts/
+dist-storybook/
+test-results/
+playwright-report/

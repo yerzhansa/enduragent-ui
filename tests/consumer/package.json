@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@enduragent/ui": "PACKED_PACKAGE",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.3.3",
+    "@vitejs/plugin-react": "5.2.0",
+    "tailwindcss": "4.3.3",
+    "vite": "7.3.6"
+  },
+  "packageManager": "pnpm@11.24.0"
+}

@@ -1,0 +1,118 @@
+{
+  "referenceRevision": "949565d5784d1193ac9d20ed2972958e50d6dfa4",
+  "referenceManifestSha256": "ddb6f9e98fb51a289e9222ef04825aa14ae38eec956c420f2a44706375b640d9",
+  "images": [
+    {
+      "path": "wide-dark/shared-select--default.png",
+      "sha256": "b8e411665fba82a5aed35ea34edb7f12dab07bde4bdbf7be818d9ec5a04221dd"
+    },
+    {
+      "path": "wide-dark/confirmation.png",
+      "sha256": "045efd9226bcab11f5a017b80cb4c2811c4ad32283f078d33dea5ce29c8907b4"
+    },
+    {
+      "path": "wide-dark/shared-inline-confirmation--default.png",
+      "sha256": "1005572f5fb68a2a5393e03eb29466ce0d925688e67832a0519690c4afa31f4e"
+    },
+    {
+      "path": "wide-dark/shared-select--disabled.png",
+      "sha256": "b805a583b0386d6103b663ee0c226e25eeb6b57fe9e4b0ed0ee706cbc43bb943"
+    },
+    {
+      "path": "wide-dark/select.png",
+      "sha256": "ce2b82e50e362e39d06e3aa25dcdbd5ea4bb54e7305586dbc180d7fb57cba105"
+    },
+    {
+      "path": "wide-dark/shared-inline-confirmation--disabled.png",
+      "sha256": "07fc8f84b3cf76bbb92a0b4a5c171dc2fcb0bac32de84671496bc9902eda1456"
+    },
+    {
+      "path": "wide-dark/shared-inline-confirmation--busy.png",
+      "sha256": "7c7fd2447a7ce1b36bdfc7b256f43a5aef7761e5a62d7d7e01657ba8c8685eb2"
+    },
+    {
+      "path": "compact-light/shared-select--default.png",
+      "sha256": "63f1c6a4d043e52e3db84e970347822bfbd05248eac390ee29d9d61e82a28c5f"
+    },
+    {
+      "path": "compact-light/confirmation.png",
+      "sha256": "2fc0992faa82366de910efce0069c773acd9d22d4f47bd2d8d7d7ae2ae6159fe"
+    },
+    {
+      "path": "compact-light/shared-inline-confirmation--default.png",
+      "sha256": "d68963b4a412b958bd8d58de1d02cc6b80a9064fdc8bc251d3b846e7219e604f"
+    },
+    {
+      "path": "compact-light/shared-select--disabled.png",
+      "sha256": "560be24c2e9d6966de59ba70ffe4545e622576d8840bef670f6adc1f9189535f"
+    },
+    {
+      "path": "compact-light/select.png",
+      "sha256": "f94d4f8236d260a9ba483b13e44c2eb0c48e4eb37184c977f2d62eabdf9eeaa6"
+    },
+    {
+      "path": "compact-light/shared-inline-confirmation--disabled.png",
+      "sha256": "3759f4f0ab7ac94f804d67b04b6cf5e1567d60e92456dc5d1209adc978af7924"
+    },
+    {
+      "path": "compact-light/shared-inline-confirmation--busy.png",
+      "sha256": "495007336d0101e35264e75cfc4ce5b19ec5ad995865576854cfc0f48ddd6f42"
+    },
+    {
+      "path": "wide-light/shared-select--default.png",
+      "sha256": "56a53f416e8da9a7becd8e91dad79d239b2dc17481583b5024433ef186f8065d"
+    },
+    {
+      "path": "wide-light/confirmation.png",
+      "sha256": "75c333a15ed539130fe0809aef5754cc66cd6908f099d56e22a773313680d74e"
+    },
+    {
+      "path": "wide-light/shared-inline-confirmation--default.png",
+      "sha256": "df416300df4369ca0505a689c14286e4bf34157432361c723e97589858bff941"
+    },
+    {
+      "path": "wide-light/shared-select--disabled.png",
+      "sha256": "00d7658123f6df74589cf23e898ac6be6e2e35566ad2c1825456b8956c9959e5"
+    },
+    {
+      "path": "wide-light/select.png",
+      "sha256": "f94d4f8236d260a9ba483b13e44c2eb0c48e4eb37184c977f2d62eabdf9eeaa6"
+    },
+    {
+      "path": "wide-light/shared-inline-confirmation--disabled.png",
+      "sha256": "3453201437f5947ceeabd95d1d7cb8507bd45b6004484f6636cec9e1929fa731"
+    },
+    {
+      "path": "wide-light/shared-inline-confirmation--busy.png",
+      "sha256": "a078b53270ef0cf5e071c14fae4a34915f4f3d4bcfb15f5f751a2a2a4bcd6c87"
+    },
+    {
+      "path": "compact-dark/shared-select--default.png",
+      "sha256": "2121887a3bd99ac892d1517399375c046271b65f3ec67af2cfa7d0d7ef26be32"
+    },
+    {
+      "path": "compact-dark/confirmation.png",
+      "sha256": "04f86596081e6e68f8340b2c087601c6da99f16af2092b625b0e9363f1bcc42a"
+    },
+    {
+      "path": "compact-dark/shared-inline-confirmation--default.png",
+      "sha256": "8b171366af5f364ea63fc31da069e44de71e266fea6cfa3fcb3e7242eb9d8746"
+    },
+    {
+      "path": "compact-dark/shared-select--disabled.png",
+      "sha256": "abb57c082f67bb1a7104fffa311471b5321921d80b463a2a5238ab324b6ee10b"
+    },
+    {
+      "path": "compact-dark/select.png",
+      "sha256": "ce2b82e50e362e39d06e3aa25dcdbd5ea4bb54e7305586dbc180d7fb57cba105"
+    },
+    {
+      "path": "compact-dark/shared-inline-confirmation--disabled.png",
+      "sha256": "c25246242537272888aa2d13a0e9c52730e1a7d9bc321e93eee044147674dff8"
+    },
+    {
+      "path": "compact-dark/shared-inline-confirmation--busy.png",
+      "sha256": "7df5aa8775f4de9de84512cf0708d57a25814bdf073784df3e89a52ad5fd4dae"
+    }
+  ]
+}
