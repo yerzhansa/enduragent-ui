@@ -30,6 +30,7 @@ jobs:
       - run: pnpm check
       - run: pnpm build
       - run: pnpm test
+      - run: pnpm test:release
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm check:packed
       - name: Retain package proof
