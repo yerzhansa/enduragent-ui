@@ -1,4 +1,4 @@
-import { readFile, writeFile, readdir } from "node:fs/promises";
+import { readFile, writeFile, readdir, mkdir } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { release } from "node:os";
 import { resolve } from "node:path";
@@ -30,4 +30,5 @@ const manifest = {
   representativeScreenshots: screenshots,
   packageVersion: JSON.parse(await readFile("package.json", "utf8")).version,
 };
+await mkdir("artifacts", { recursive: true });
 await writeFile("artifacts/browser-manifest.json", JSON.stringify(manifest, null, 2));
