@@ -4,7 +4,7 @@ Shared React controls, layout patterns, fonts, and palettes used by Enduragent a
 
 ## Use
 
-Install the reviewed version of `@enduragent/ui` with compatible React 19, React DOM 19, and Tailwind CSS 4 peers. Version `0.0.0` is an unpublished development placeholder.
+Install the reviewed version of `@enduragent/ui` with compatible React 19, React DOM 19, and Tailwind CSS 4 peers.
 
 ```tsx
 import { Button, Page, applyPalette, paletteById } from '@enduragent/ui';
@@ -32,7 +32,14 @@ Use one consumer CSS entry with one Tailwind compiler:
 
 The stylesheet supplies tokens, local fonts, animation definitions, Tailwind aliases, and package-relative registration of the distributed component classes. Keep preflight and utilities in the consumer entry. Add the consumer's source paths and viewport behavior there. Consumer classes passed through `className` use the shared token-aware `cn` merge behavior.
 
-The package exports `Button`, `Card`, `Dialog`, `Popover`, `Select`, their associated public controls, `Page`, `InlineConfirmation`, `buttonVariants`, `cn`, and palette functions and types from its root. The only public CSS entry is `@enduragent/ui/tailwind.css`. Palette persistence, system-theme subscriptions, and native integrations stay in the application.
+The package exports controls, `Page`, `InlineConfirmation`, `buttonVariants`, `cn`, and palette functions and types from its root. Presentation components include:
+
+- Chat turns, message content, reply actions, composer controls, attachment previews, and queued messages.
+- Question cards, choices, free-text editors, and recorded answers.
+- Artifact cards, progress displays, workout lists, evidence, metrics, disclosures, notices, and before/after comparisons.
+- Weekly summaries, compact trends with accessible data tables, selectable rides, ride metrics, and factual callouts.
+
+Storybook composes these components with fictional inputs for Chat, Training, and Plan states. Consumers own question sequencing, training calculations, attachment processing, persistence, activation, and recovery. Components receive display-ready values and callbacks; they do not import consumer stores or services. The only public CSS entry is `@enduragent/ui/tailwind.css`. Palette persistence, system-theme subscriptions, and native integrations stay in the application.
 
 ## Develop and verify
 

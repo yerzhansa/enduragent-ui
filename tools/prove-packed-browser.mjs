@@ -1,4 +1,5 @@
 import { chromium, expect } from "@playwright/test";
+import { provePresentation } from "./prove-presentation.ts";
 import { writeFile, readFile, readdir } from "node:fs/promises";
 import { createHash } from "node:crypto";
 export async function provePackedBrowser({ consumer, url, tarball }) {
@@ -74,6 +75,7 @@ export async function provePackedBrowser({ consumer, url, tarball }) {
       if (asset.endsWith(".woff2"))
         expect((await page.request.get(`${url}/assets/${asset}`)).ok()).toBe(true);
     }
+    await provePresentation(page);
     expect(failures).toEqual([]);
     await page.screenshot({ path: "artifacts/packed-proof.png" });
     await writeFile(
