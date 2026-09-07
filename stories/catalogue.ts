@@ -1,4 +1,8 @@
 export const readyIds = [
+  "presentation-plan-projection--paused",
+  "presentation-plan-projection--evidence",
+  "presentation-plan-projection--choices",
+  "presentation-plan-projection--results",
   "shared-select--default",
   "shared-select--disabled",
   "shared-inline-confirmation--default",
