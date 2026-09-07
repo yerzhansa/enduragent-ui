@@ -26,3 +26,4 @@ export * from "./presentation/artifact.js";
 export * from "./presentation/chat.js";
 export * from "./presentation/question.js";
 export * from "./presentation/training.js";
+export * from "./presentation/plan.js";
