@@ -15,7 +15,7 @@ const styles = {
   trendCaption:
     "flex items-baseline justify-between gap-row text-xs leading-4 font-normal text-ink-3",
   trendBars:
-    "grid min-h-23 grid-cols-6 items-end gap-inset border-b border-line max-[761px]:min-h-19",
+    "grid min-h-23 grid-flow-col auto-cols-fr items-end gap-inset border-b border-line max-[761px]:min-h-19",
   trendColumn: "grid h-full min-w-0 grid-rows-[1fr_auto] items-end gap-1",
   trendBar: "training-trend-bar w-full rounded-t-chip bg-line-2",
   trendLabel:

@@ -43,6 +43,18 @@ describe("Training presentation", () => {
     ).toBeTruthy();
     expect(screen.getByText("7 Sep").closest('[aria-hidden="true"]')).toBeTruthy();
   });
+  it("accepts an empty ready series without inventing buckets", () => {
+    const view = render(
+      <CompactTrend
+        title="Riding time"
+        period="No recorded weeks"
+        content={{ kind: "ready", headings: ["Week", "Rides", "Time"], buckets: [] }}
+      />,
+    );
+    const table = screen.getByRole("table", { name: "Riding time No recorded weeks" });
+    expect(within(table).getAllByRole("row")).toHaveLength(1);
+    expect(view.container.querySelectorAll(".training-trend-bar")).toHaveLength(0);
+  });
   it("does not manufacture a chart for unavailable data", () => {
     render(
       <CompactTrend
