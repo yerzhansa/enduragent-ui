@@ -21,3 +21,8 @@ export * from "./components/dialog.js";
 export * from "./components/select.js";
 export * from "./patterns/Page.js";
 export * from "./patterns/InlineConfirmation.js";
+export * from "./presentation/facts.js";
+export * from "./presentation/artifact.js";
+export * from "./presentation/chat.js";
+export * from "./presentation/question.js";
+export * from "./presentation/training.js";

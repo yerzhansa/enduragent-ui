@@ -26,6 +26,7 @@ import {
   paletteById,
 } from "@enduragent/ui";
 import "./style.css";
+import { PresentationProof } from "./presentation";
 
 const root = document.getElementById("root");
 if (!root) throw Error("Missing consumer root");
@@ -112,6 +113,7 @@ createRoot(root).render(
     >
       Dark theme
     </Button>
+    <PresentationProof />
     <code className="font-mono">Fictional example</code>
   </main>,
 );

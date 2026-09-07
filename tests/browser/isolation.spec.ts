@@ -38,7 +38,7 @@ test("theme changes stay ephemeral and navigation resets within one preview docu
     .evaluate(() =>
       Object.defineProperty(window, "previewNavigationToken", { value: "same-document" }),
     );
-  await page.getByRole("button", { name: "Expand all", exact: true }).click();
+  await page.locator("#shared").getByRole("button", { name: "Expand all", exact: true }).click();
   await page.locator('a[href*="shared-controls--buttons"]').click();
   await expect(stage).toHaveAttribute("data-scenario", "shared-controls--buttons");
   await page.locator('a[href*="shared-theme--default"]').click();
