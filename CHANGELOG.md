@@ -1,5 +1,17 @@
 # @enduragent/ui
 
+## 0.2.0
+
+### Minor Changes
+
+- 99c21e1: Add shared presentation for Chat, Training, and Plan with fictional Storybook examples.
+
+  User-facing: Cards, questions, workout rows, and training summaries use consistent presentation across the previews and application.
+
+### Patch Changes
+
+- d4772e0: User-facing: Training charts fill the available space for the displayed period.
+
 ## 0.1.0
 
 ### Minor Changes
