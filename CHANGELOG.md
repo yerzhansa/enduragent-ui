@@ -1,5 +1,17 @@
 # @enduragent/ui
 
+## 0.3.0
+
+### Minor Changes
+
+- 6133f69: Add shared Plan projection, evidence, choice, action, and result presentation patterns.
+
+  User-facing: Plan creation and review use consistent cards, choices, and confirmation messages.
+
+### Patch Changes
+
+- 0f8c4c9: User-facing: Plan card headings keep their established emphasis.
+
 ## 0.2.0
 
 ### Minor Changes
