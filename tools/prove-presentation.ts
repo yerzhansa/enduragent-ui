@@ -61,6 +61,28 @@ export async function provePresentation(page: Page): Promise<void> {
         "text-align",
         width === 390 ? "left" : "right",
       );
+      for (const [testId, count] of [
+        ["packed-trend", 6],
+        ["packed-short-trend", 2],
+      ] as const) {
+        const chart = proof.getByTestId(testId);
+        const bars = chart.locator(".training-trend-bar");
+        await expect(bars).toHaveCount(count);
+        const dimensions = await bars.evaluateAll((elements) => {
+          const first = elements[0];
+          const last = elements[elements.length - 1];
+          const grid = first?.parentElement?.parentElement;
+          if (!first || !last || !grid) throw Error("Missing fictional chart columns");
+          return {
+            widths: elements.map((element) => element.getBoundingClientRect().width),
+            left: first.getBoundingClientRect().left - grid.getBoundingClientRect().left,
+            right: grid.getBoundingClientRect().right - last.getBoundingClientRect().right,
+          };
+        });
+        expect(Math.abs(dimensions.left)).toBeLessThan(1);
+        expect(Math.abs(dimensions.right)).toBeLessThan(1);
+        expect(Math.max(...dimensions.widths) - Math.min(...dimensions.widths)).toBeLessThan(1);
+      }
       expect(await proof.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(
         true,
       );

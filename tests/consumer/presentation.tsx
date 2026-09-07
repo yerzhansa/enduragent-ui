@@ -151,6 +151,33 @@ export function PresentationProof() {
           ],
         }}
       />
+      <CompactTrend
+        data-testid="packed-short-trend"
+        title="Fictional two-week riding"
+        period="24 Aug–6 Sep 1998"
+        content={{
+          kind: "ready",
+          headings: ["Week", "Rides", "Time"],
+          buckets: [
+            {
+              id: "fictional-short-first",
+              label: "24 Aug",
+              range: "24–30 Aug 1998",
+              value: 120,
+              count: "2 rides",
+              formattedValue: "2 h",
+            },
+            {
+              id: "fictional-short-second",
+              label: "31 Aug",
+              range: "31 Aug–6 Sep 1998",
+              value: 180,
+              count: "3 rides",
+              formattedValue: "3 h",
+            },
+          ],
+        }}
+      />
       <ul>
         <SelectableRideRow
           aria-label="Inspect fictional ride"
