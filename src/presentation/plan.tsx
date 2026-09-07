@@ -95,7 +95,7 @@ export function PlanProjectionCard({
                 {eyebrow}
               </p>
             ) : null}
-            <h3 className="m-0 text-sm font-semibold" tabIndex={-1}>
+            <h3 className="m-0 text-sm font-bold" tabIndex={-1}>
               {title}
             </h3>
           </div>
