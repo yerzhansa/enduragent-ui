@@ -195,7 +195,7 @@ export const PALETTES: readonly Palette[] = Object.freeze([
     },
   },
   {
-    id: "telegram",
+    id: "sky-blue",
     name: "Sky Blue",
     l: {
       bg: "#ffffff",
@@ -400,5 +400,6 @@ export const FIXED: { readonly l: FixedRamp; readonly d: FixedRamp } = Object.fr
 export const DEFAULT_PALETTE_ID = PALETTES[0].id;
 
 export function paletteById(id: string | null | undefined): Palette {
-  return PALETTES.find((palette) => palette.id === id) ?? PALETTES[0];
+  const canonicalId = id === "telegram" ? "sky-blue" : id;
+  return PALETTES.find((palette) => palette.id === canonicalId) ?? PALETTES[0];
 }

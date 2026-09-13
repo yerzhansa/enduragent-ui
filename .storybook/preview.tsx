@@ -28,7 +28,7 @@ const preview: Preview = {
       const theme: unknown = context.globals.theme;
       const palette: unknown = context.globals.palette;
       if (theme !== "light" && theme !== "dark") throw new Error("Invalid preview theme");
-      if (typeof palette !== "string" || !PALETTES.some(({ id }) => id === palette))
+      if (typeof palette !== "string")
         throw new Error("Invalid preview palette");
       applyPalette({
         root: document.documentElement,
