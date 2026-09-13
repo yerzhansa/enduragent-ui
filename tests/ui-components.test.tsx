@@ -26,7 +26,7 @@ import {
 import { applyPalette, type ResolvedTheme } from "../src/theme/applyPalette";
 import { paletteById } from "../src/theme/palettes";
 
-const PALETTE_IDS = ["patrol", "chalk", "telegram"] as const;
+const PALETTE_IDS = ["patrol", "chalk", "sky-blue"] as const;
 const THEMES: readonly ResolvedTheme[] = ["light", "dark"];
 
 function ComponentGallery() {

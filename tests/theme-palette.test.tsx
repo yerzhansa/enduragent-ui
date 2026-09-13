@@ -116,6 +116,14 @@ function expectedProperties(paletteId: string, theme: ResolvedTheme): Map<string
 }
 
 describe("palette engine", () => {
+  it("resolves the legacy blue palette ID to its canonical palette", () => {
+    const palette = paletteById("telegram");
+    expect(palette.id).toBe("sky-blue");
+    expect(palette.name).toBe("Sky Blue");
+    expect(palette).toBe(paletteById("sky-blue"));
+    expect(PALETTES.some((entry) => entry.id === "telegram")).toBe(false);
+  });
+
   it("ships thirteen palettes with Patrol first", () => {
     expect(PALETTES).toHaveLength(13);
     expect(PALETTES[0].id).toBe("patrol");
