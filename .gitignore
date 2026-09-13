@@ -4,3 +4,4 @@ artifacts/
 dist-storybook/
 test-results/
 playwright-report/
+/AGENTS.md
