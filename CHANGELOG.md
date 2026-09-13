@@ -1,5 +1,12 @@
 # @enduragent/ui
 
+## 0.3.1
+
+### Patch Changes
+
+- b224f95: User-facing: The blue palette is now called Sky Blue. Its colors and your saved selection stay the same.
+- 0f6833e: User-facing: Sky Blue keeps your existing palette selection when you upgrade.
+
 ## 0.3.0
 
 ### Minor Changes
