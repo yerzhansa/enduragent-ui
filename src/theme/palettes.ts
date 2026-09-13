@@ -196,7 +196,7 @@ export const PALETTES: readonly Palette[] = Object.freeze([
   },
   {
     id: "telegram",
-    name: "Telegram",
+    name: "Sky Blue",
     l: {
       bg: "#ffffff",
       rail: "#f5f5f5",
