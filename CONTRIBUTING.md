@@ -8,7 +8,6 @@ Use Node 24 and pnpm `11.24.0`. Run `pnpm install --frozen-lockfile`, `pnpm chec
 - Include `User-facing:` with plain athlete-facing release text when applicable.
 - Omit `User-facing:` for release-tooling changes.
 - Use the Changesets `Version Packages` PR for releases.
-- Obtain explicit operator approval of each release-tooling and Version Packages PR before merging.
 - Require repository review and successful CI before merging.
 - Distribute package tarballs through GitHub releases; do not publish this library to npm.
 - Use stable SemVer `X.Y.Z`, such as `0.1.0`; do not publish prerelease or build-metadata versions.
@@ -27,13 +26,13 @@ Use Node 24 and pnpm `11.24.0`. Run `pnpm install --frozen-lockfile`, `pnpm chec
 - Keep `Prepare Release` read-only and manually dispatched.
 - Do not add a publishing workflow or registry credentials.
 
-GitHub-token-created PRs may not trigger CI automatically. An authorized human can close and reopen the PR to trigger required checks. Keep the CI requirement.
+GitHub-token-created PRs may not trigger CI automatically. Close and reopen the PR to trigger required checks. Keep the CI requirement.
 
 GitHub locks release assets and their Git tag when an immutable release is published. Drafts remain editable so all assets can be attached first. Immutability applies only to future releases. See [immutable releases](https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases) and [enabling release immutability](https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/establish-provenance-and-integrity/prevent-release-changes).
 
 ## Prepare the artifact
 
-- Merge the specifically approved Version Packages PR and wait for successful CI on that exact snapshot.
+- Merge the Version Packages PR and wait for successful CI on that exact snapshot.
 - Dispatch `Prepare Release` on `main`.
 - Download its `ui-release` workflow artifact.
 - Record the run ID, source commit, version, and SHA-512 from the reviewed evidence.
@@ -70,10 +69,9 @@ GITHUB_REPOSITORY=yerzhansa/enduragent-ui GITHUB_REF=refs/heads/main GITHUB_SHA=
 
 Do not use `--clobber`. Reuse an existing draft only after confirming its tag, commit, asset names, and bytes match the reviewed artifact.
 
-## Publish after approval
+## Publish the verified release
 
-- Obtain explicit operator approval of the exact draft, version, commit, and asset SHA-512 before publication.
-- Publish the verified draft after approval.
+- Publish the verified draft.
 - Confirm the published release is immutable and its asset digest still matches.
 - Pin both consumers to the same exact versioned URL and lockfile integrity.
 
@@ -83,4 +81,4 @@ gh-personal release edit "$release_tag" --repo yerzhansa/enduragent-ui --draft=f
 
 The consumer URL is `https://github.com/yerzhansa/enduragent-ui/releases/download/v<version>/enduragent-ui-<version>.tgz`. For example: `https://github.com/yerzhansa/enduragent-ui/releases/download/v0.1.0/enduragent-ui-0.1.0.tgz`.
 
-Do not rebuild between artifact review and publication. Existing draft versions reserve their version numbers. Approval on a later day does not require a version change or a new artifact.
+Do not rebuild between artifact review and publication. Existing draft versions reserve their version numbers.
